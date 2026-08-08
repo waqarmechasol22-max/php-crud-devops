@@ -28,7 +28,7 @@ $result = $conn->query($sql);
 
 <div class="container">
 
-    <h1>Student Management</h1>
+    <h1>Student Management Non Main</h1>
 
     <a href="create.php" class="btn">
         + Add Student
