@@ -1,0 +1,36 @@
+name: PHP CRUD CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/search-students
+
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check PHP version
+        run: php --version
+
+      - name: Check PHP files
+        run: |
+          php -l connection.php
+          php -l index.php
+          php -l create.php
+          php -l edit.php
+          php -l delete.php
+
+      - name: Build Docker image
+        run: docker build -t crud-app .
