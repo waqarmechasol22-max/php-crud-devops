@@ -25,5 +25,4 @@ jobs:
           docker build -t ${{ vars.DOCKERHUB_USERNAME }}/php-crud-devops:latest .
 
       - name: Push Docker image
-        run: |
-          docker push ${{ vars.DOCKERHUB_USERNAME }}/php-crud-devops:latest
+        run: docker push waqariftekhar/php-crud:latest
