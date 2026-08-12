@@ -1,0 +1,37 @@
+name: PHP CRUD CD
+
+on:
+  workflow_run:
+    workflows:
+      - PHP CRUD CI
+    types:
+      - completed
+
+jobs:
+  docker:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ vars.DOCKERHUB_USERNAME }}/php-crud:latest \
+            -t ${{ vars.DOCKERHUB_USERNAME }}/php-crud:${{ github.event.workflow_run.head_sha }} .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/php-crud:latest
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/php-crud:${{ github.event.workflow_run.head_sha }}
