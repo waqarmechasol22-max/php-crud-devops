@@ -1,0 +1,29 @@
+name: PHP CRUD CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check PHP version
+        run: php -v
+
+      - name: Check PHP files
+        run: |
+          php -l index.php
+          php -l create.php
+          php -l edit.php
+          php -l delete.php
+          php -l connection.php
